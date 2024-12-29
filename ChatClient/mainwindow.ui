@@ -6,7 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< HEAD
     <width>735</width>
+=======
+    <width>591</width>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     <height>426</height>
    </rect>
   </property>
@@ -45,6 +49,7 @@ border-radius: 25px;
      </widget>
     </item>
     <item>
+<<<<<<< HEAD
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QPushButton" name="logoutButton">
@@ -102,6 +107,11 @@ border-radius: 25px;
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
        <number>1</number>
+=======
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
       </property>
       <widget class="QWidget" name="chatPage">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -125,6 +135,7 @@ border-radius: 25px;
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
+<<<<<<< HEAD
            <widget class="QLineEdit" name="sayLineEdit">
             <property name="minimumSize">
              <size>
@@ -156,10 +167,19 @@ border-radius: 25px;
             </property>
             <property name="text">
              <string>群发</string>
+=======
+           <widget class="QLineEdit" name="sayLineEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="sayButton">
+            <property name="text">
+             <string>发送</string>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
             </property>
            </widget>
           </item>
           <item>
+<<<<<<< HEAD
            <widget class="QComboBox" name="privateTargetComboBox"/>
           </item>
           <item>
@@ -254,6 +274,11 @@ border-radius: 25px;
             </property>
             <property name="text">
              <string>解除禁言</string>
+=======
+           <widget class="QPushButton" name="logoutButton">
+            <property name="text">
+             <string>退出</string>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
             </property>
            </widget>
           </item>
@@ -315,6 +340,7 @@ border-radius: 25px;
                </property>
               </widget>
              </item>
+<<<<<<< HEAD
              <item row="0" column="1">
               <widget class="QLineEdit" name="serverEdit">
                <property name="text">
@@ -322,6 +348,8 @@ border-radius: 25px;
                </property>
               </widget>
              </item>
+=======
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
              <item row="1" column="0">
               <widget class="QLabel" name="label_3">
                <property name="text">
@@ -332,6 +360,7 @@ border-radius: 25px;
              <item row="1" column="1">
               <widget class="QLineEdit" name="usernameEdit">
                <property name="text">
+<<<<<<< HEAD
                 <string/>
                </property>
               </widget>
@@ -343,6 +372,16 @@ border-radius: 25px;
               <widget class="QLabel" name="label">
                <property name="text">
                 <string>密码：</string>
+=======
+                <string>guo</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="serverEdit">
+               <property name="text">
+                <string>127.0.0.1</string>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
                </property>
               </widget>
              </item>
@@ -369,10 +408,13 @@ border-radius: 25px;
              <property name="text">
               <string>登录聊天室</string>
              </property>
+<<<<<<< HEAD
              <property name="icon">
               <iconset resource="image.qrc">
                <normaloff>:/image/logout.png</normaloff>:/image/logout.png</iconset>
              </property>
+=======
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
             </widget>
            </item>
           </layout>
@@ -419,9 +461,15 @@ border-radius: 25px;
   <tabstop>sayLineEdit</tabstop>
   <tabstop>sayButton</tabstop>
   <tabstop>userListWidget</tabstop>
+<<<<<<< HEAD
  </tabstops>
  <resources>
   <include location="image.qrc"/>
  </resources>
+=======
+  <tabstop>logoutButton</tabstop>
+ </tabstops>
+ <resources/>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
  <connections/>
 </ui>

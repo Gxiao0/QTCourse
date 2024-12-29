@@ -1,11 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+<<<<<<< HEAD
 #include "historydialog.h"
 #include <QHostAddress>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QMessageBox>
 
+=======
+#include <QHostAddress>
+#include <QJsonObject>
+#include <QJsonValue>
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentWidget(ui->loginPage);//设置首页为登录界面
+<<<<<<< HEAD
     inChatPage = false; // 初始化不在聊天界面
 
     m_chatClient = new ChatClient(this);
@@ -26,6 +33,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_chatClient, &ChatClient::unmuteChat, this, &MainWindow::on_ummuteButton_clicked);
     qDebug() << "unmuteChat signal connected.";
+=======
+
+    m_chatClient = new ChatClient(this);
+    connect(m_chatClient,&ChatClient::connected, this, &MainWindow::connectedToServer);
+    //connect(m_chatClient,&ChatClient::messageReceived, this, &MainWindow::messageReceived);
+    connect(m_chatClient, &ChatClient::jsonReceived, this, &MainWindow::jsonReceived);
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +50,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_loginButton_clicked()//登录按钮
 {
+<<<<<<< HEAD
     QString serverAddress = ui->serverEdit->text();
     QString username = ui->usernameEdit->text();
     QString password = ui->passwordEdit->text();
@@ -73,11 +88,15 @@ void MainWindow::on_loginButton_clicked()//登录按钮
         // 如果都不匹配，显示错误信息
         QMessageBox::warning(this, "登录失败", "用户名或密码错误");
     }
+=======
+    m_chatClient->connectToServer(QHostAddress(ui->serverEdit->text()),1967);
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 
 void MainWindow::on_sayButton_clicked()//发送按钮
 {
+<<<<<<< HEAD
 
     if (m_chatClient->isMuted()) { // 检查全局禁言状态
         qDebug() << "Message not sent due to mute state.";
@@ -98,16 +117,27 @@ void MainWindow::on_sayButton_clicked()//发送按钮
         }
     }
     ui->sayLineEdit->clear();
+=======
+    if(!ui->sayLineEdit->text().isEmpty())
+        m_chatClient->sendMessage(ui->sayLineEdit->text());
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 
 void MainWindow::on_logoutButton_clicked()//退出按钮
 {
     m_chatClient->disconnectFromHost();
+<<<<<<< HEAD
     ui->stackedWidget->setCurrentWidget(ui->loginPage);//跳转到登录界面
     inChatPage = false; // 设置为不在聊天界面
 
     for(auto aItem : ui->userListWidget->findItems(ui->usernameEdit->text(), Qt::MatchExactly)){
+=======
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);//跳转到聊天室界面
+
+    for(auto aItem : ui->userListWidget->findItems(ui->usernameEdit->text(), Qt::MatchExactly)){
+        qDebug("remove");
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         ui->userListWidget->removeItemWidget(aItem);
         delete aItem;//把用户名从列表中删除
     }
@@ -115,12 +145,19 @@ void MainWindow::on_logoutButton_clicked()//退出按钮
 
 void MainWindow::connectedToServer()
 {
+<<<<<<< HEAD
     ui->stackedWidget->setCurrentWidget(ui->chatPage);//跳转到聊天界面
     inChatPage = true; // 设置为在聊天界面
     m_chatClient->sendMessage(ui->usernameEdit->text(),"login");
 
     // 设置privateTargetComboBox默认不选择任何用户
     ui->privateTargetComboBox->setCurrentIndex(-1);
+=======
+    ui->stackedWidget->setCurrentWidget(ui->chatPage);//跳转到登录界面
+    m_chatClient->sendMessage(ui->usernameEdit->text(),"login");
+
+
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void MainWindow::messageReceived(const QString &sender, const QString &text)
@@ -144,6 +181,7 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
         if(senderVal.isNull() || !senderVal.isString())
             return;
 
+<<<<<<< HEAD
         QString sender = senderVal.toString();
         QString text = textVal.toString();
         // 如果发送者是管理员，修改消息格式
@@ -176,6 +214,10 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
             ui->roomTextEdit->append(QString("%1（私聊我）：%2").arg(sender).arg(text));
         }
         ui->roomTextEdit->update();
+=======
+
+        messageReceived(senderVal.toString(), textVal.toString());
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     }
     else if(typeVal.toString().compare("newuser",Qt::CaseInsensitive) == 0){
         const QJsonValue usernameVal = docObj.value("username");
@@ -189,8 +231,12 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
         if(usernameVal.isNull() || !usernameVal.isString())
             return;
 
+<<<<<<< HEAD
         QString username = usernameVal.toString();
         userLeft(username);
+=======
+        userLeft(usernameVal.toString());
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     }
     else if(typeVal.toString().compare("userlist",Qt::CaseInsensitive) == 0){
 
@@ -198,6 +244,7 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
         if(userlistVal.isNull() || !userlistVal.isArray())
             return;
 
+<<<<<<< HEAD
         userListReceived(userlistVal.toVariant().toStringList());
     }
     else if(typeVal.toString().compare("userKicked", Qt::CaseInsensitive) == 0){
@@ -239,18 +286,27 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
     }
 
 
+=======
+        qDebug() << userlistVal.toVariant().toStringList();
+        userListReceived(userlistVal.toVariant().toStringList());
+    }
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void MainWindow::userJoined(const QString &user)
 {
     ui->userListWidget->addItem(user);
+<<<<<<< HEAD
     // 确保新用户加入时添加到privateTargetComboBox
     ui->privateTargetComboBox->addItem(user);
+=======
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void MainWindow::userLeft(const QString &user)
 {
     for(auto aItem : ui->userListWidget->findItems(user, Qt::MatchExactly)){
+<<<<<<< HEAD
         ui->userListWidget->removeItemWidget(aItem);
         delete aItem;//把用户名从列表中删除
     }
@@ -261,10 +317,17 @@ void MainWindow::userLeft(const QString &user)
     }
     // 用户列表界面刷新
     ui->userListWidget->update();
+=======
+        qDebug("remove");
+        ui->userListWidget->removeItemWidget(aItem);
+        delete aItem;//把用户名从列表中删除
+    }
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void MainWindow::userListReceived(const QStringList &list)
 {
+<<<<<<< HEAD
     userListUpdating = true;
     ui->userListWidget->clear();
     ui->userListWidget->addItems(list);
@@ -411,5 +474,10 @@ void MainWindow::on_returnButton_clicked()
     }
 
     ui->stackedWidget->setCurrentWidget(ui->chatPage);
+=======
+    ui->userListWidget->clear();
+    ui->userListWidget->addItems(list);
+
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 QT       += core gui network sql
+=======
+QT       += core gui network
+>>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
