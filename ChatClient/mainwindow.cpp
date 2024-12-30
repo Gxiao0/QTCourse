@@ -65,8 +65,8 @@ void MainWindow::on_loginButton_clicked()//登录按钮
             // 是普通用户，进行登录操作
             m_chatClient->connectToServer(QHostAddress(serverAddress), 1967);
             // 发送包含普通用户权限信息的登录消息给服务器
-            m_chatClient->sendMessage(username, "login", "", false);
             m_isAdmin = false;
+            m_chatClient->sendMessage(username, "login", "", false);
             return;
         }
 
@@ -171,7 +171,7 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
         // 如果发送者是管理员，修改消息格式
         bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
         if(isAdmin){
-            ui->roomTextEdit->append(QString("%1[管理员]（私聊）：%2").arg(sender).arg(text));
+            ui->roomTextEdit->append(QString("%1[管理员]（私聊我）：%2").arg(sender).arg(text));
         } else {
             ui->roomTextEdit->append(QString("%1（私聊我）：%2").arg(sender).arg(text));
         }
@@ -225,7 +225,7 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
             ui->roomTextEdit->append(QString("%1已被管理员踢出群聊").arg(username));
             userLeft(username);
         }
-        return;
+        //return;
     }
     else if(typeVal.toString().compare("mute", Qt::CaseInsensitive) == 0){
         qDebug() << "MainWindow received mute message.";
@@ -244,7 +244,6 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
 void MainWindow::userJoined(const QString &user)
 {
     ui->userListWidget->addItem(user);
-    // 确保新用户加入时添加到privateTargetComboBox
     ui->privateTargetComboBox->addItem(user);
 }
 
@@ -272,9 +271,7 @@ void MainWindow::userListReceived(const QStringList &list)
     // 清空ComboBox原有选项并添加新的用户列表选项
     ui->privateTargetComboBox->clear();
     ui->privateTargetComboBox->addItems(list);
-
-    // 再次确保privateTargetComboBox默认不选择任何用户
-    ui->privateTargetComboBox->setCurrentIndex(-1);
+    ui->privateTargetComboBox->setCurrentIndex(-1);// 确保privateTargetComboBox默认不选择任何用户
     userListUpdating = false;
 }
 
@@ -305,7 +302,7 @@ void MainWindow::on_privateSayButton_clicked()//私聊按钮
         // 如果没有选择私聊对象，发送公开消息
         m_chatClient->sendMessage(text, "message", "", m_isAdmin);
     } else {
-            // 如果选择了私聊对象，发送私聊消息
+        // 如果选择了私聊对象，发送私聊消息
         m_chatClient->sendMessage(text, "private", selectedTarget,isAdmin);
             // 将发送的私聊消息显示在自己的聊天界面
         ui->roomTextEdit->append(QString("(我私聊%1) : %2").arg(selectedTarget).arg(text));
@@ -323,7 +320,7 @@ void MainWindow::on_kickButton_clicked()//踢出按钮
     }
 
     if (!m_isAdmin) {
-        QMessageBox::warning(this, "权限不足", "您没有权限执行此操作");
+        QMessageBox::warning(this, "权限不足", "您没有权限执行踢出操作");
         return;
     }
 
@@ -357,7 +354,7 @@ void MainWindow::on_userListWidget_itemDoubleClicked(QListWidgetItem *item)
 void MainWindow::on_muteButton_clicked()
 {
     if (!m_isAdmin) {
-        QMessageBox::warning(this, "权限不足", "您没有权限执行此操作");
+        QMessageBox::warning(this, "权限不足", "您没有权限执行禁言操作");
         return;
     }
 
@@ -370,7 +367,7 @@ void MainWindow::on_muteButton_clicked()
    m_chatClient->sendMessage("", "mute", "", true);
     qDebug() << "Sent mute message to server";
     QMessageBox::information(this, "禁言通知", "管理员开启禁言");
-       // 操作完成后重新启用按钮
+    // 操作完成后重新启用按钮
     ui->muteButton->setEnabled(true);
 }
 
@@ -401,7 +398,6 @@ void MainWindow::on_historyButton_clicked()
     ui->stackedWidget->setCurrentIndex(count-1);
     //ui->stackedWidget->setCurrentWidget(historyDialog);
 }
-
 
 
 void MainWindow::on_returnButton_clicked()
