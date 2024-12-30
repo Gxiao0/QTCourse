@@ -133,8 +133,9 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         userListMessage["type"] = "userList";
         QJsonArray userlist;
         for(ServerWorker *worker : m_clients){
+
             if(worker == sender)
-                userlist.append(worker->userName() + "*");//若在本窗口发送消息，则在该用户名前加*
+                userlist.append("📝" + worker->userName());//若在本窗口发送消息，则在该用户名前加*
             else
                 userlist.append(worker->userName());
         }

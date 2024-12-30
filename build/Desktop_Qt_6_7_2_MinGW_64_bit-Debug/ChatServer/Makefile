@@ -415,7 +415,8 @@ Makefile: ../../../ChatServer/ChatServer.pro D:/Qt/6.7.2/mingw_64/mkspecs/win32-
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl \
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Core.prl \
 		D:/Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl \
-		D:/Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf
+		D:/Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf \
+		../../../ChatServer/Lab.qrc
 	$(QMAKE) -o Makefile ..\..\..\ChatServer\ChatServer.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 D:/Qt/6.7.2/mingw_64/mkspecs/features/spec_pre.prf:
 D:/Qt/6.7.2/mingw_64/mkspecs/features/device_config.prf:
@@ -763,6 +764,7 @@ D:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl:
 D:/Qt/6.7.2/mingw_64/lib/Qt6Core.prl:
 D:/Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl:
 D:/Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf:
+../../../ChatServer/Lab.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\..\..\ChatServer\ChatServer.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 

@@ -3,5 +3,9 @@
         <file>../image/login.png</file>
         <file>../image/logout.png</file>
         <file>../image/return.png</file>
+        <file>../image/searchByWord.png</file>
+        <file>../image/yonghu.png</file>
+        <file>../image/searchByRili.png</file>
+        <file>../image/searchByUser.png</file>
     </qresource>
 </RCC>

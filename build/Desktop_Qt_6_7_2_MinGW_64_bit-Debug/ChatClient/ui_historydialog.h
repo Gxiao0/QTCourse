@@ -10,6 +10,7 @@
 #define UI_HISTORYDIALOG_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
@@ -53,6 +54,9 @@ public:
 
         searchButton = new QPushButton(HistoryDialog);
         searchButton->setObjectName("searchButton");
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/image/searchByWord.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        searchButton->setIcon(icon);
 
         horizontalLayout_2->addWidget(searchButton);
 
@@ -63,11 +67,17 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         timeButton = new QPushButton(HistoryDialog);
         timeButton->setObjectName("timeButton");
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/image/searchByRili.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        timeButton->setIcon(icon1);
 
         horizontalLayout->addWidget(timeButton);
 
         userButton = new QPushButton(HistoryDialog);
         userButton->setObjectName("userButton");
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/image/searchByUser.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        userButton->setIcon(icon2);
 
         horizontalLayout->addWidget(userButton);
 

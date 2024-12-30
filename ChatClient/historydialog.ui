@@ -31,6 +31,10 @@
        <property name="text">
         <string>搜索</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/searchByWord.png</normaloff>:/image/searchByWord.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>
@@ -42,6 +46,10 @@
        <property name="text">
         <string>时间</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/searchByRili.png</normaloff>:/image/searchByRili.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -49,12 +57,18 @@
        <property name="text">
         <string>用户</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/searchByUser.png</normaloff>:/image/searchByUser.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>
