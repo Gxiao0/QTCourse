@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 #include "chatserver.h"
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 #include "serverworker.h"
 #include <QDataStream>
 #include <QJsonObject>
@@ -14,28 +11,16 @@ ServerWorker::ServerWorker(QObject *parent)
 {
     m_serverSocket=new QTcpSocket(this);//创建对象，用于处理和对应的客户端进行网络数据通信
     connect(m_serverSocket,&QTcpSocket::readyRead,this,&ServerWorker::onReadyRead);//当客户端发送的数据到达并可读取时(readyRead信号被触发),就会调用onReadyRead函数来处理接收到的数据
-<<<<<<< HEAD
     connect(m_serverSocket, &QTcpSocket::disconnected, this, &ServerWorker::disconnectFromClient);
-=======
-    connect(m_serverSocket, &QTcpSocket::disconnected, this, &ServerWorker::disconnectedFromClient);
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 }
 
 bool ServerWorker::setSocketDescriptor(qintptr socketDescriptor)
 {
     //将传入的套接字描述符设置给内部的QTcpSocket对象
-<<<<<<< HEAD
     return m_serverSocket->setSocketDescriptor(socketDescriptor);
 }
 
-=======
-        return m_serverSocket->setSocketDescriptor(socketDescriptor);
-}
-
-
-
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 QString ServerWorker::userName()
 {
     return m_userName;
@@ -46,7 +31,6 @@ void ServerWorker::setUserName(QString user)
     m_userName = user;
 }
 
-<<<<<<< HEAD
 void ServerWorker::disconnectFromClient()
 {
     qDebug() << "ServerWorker::disconnectFromClient called.";
@@ -64,8 +48,6 @@ void ServerWorker::setIsAdmin(bool isAdmin)
     m_isAdmin = isAdmin;
 }
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 void ServerWorker::onReadyRead()//读取客户端发送的数据
 {
     QByteArray jsonData;//存放读取到的数据
@@ -86,7 +68,6 @@ void ServerWorker::onReadyRead()//读取客户端发送的数据
                     emit jsonReceived(this, jsonDoc.object());
                 }
             }
-<<<<<<< HEAD
 
             if (jsonDoc["type"] == "mute") {
                             m_isMuted = true; // 设置当前用户的禁言状态
@@ -95,17 +76,12 @@ void ServerWorker::onReadyRead()//读取客户端发送的数据
                             m_isMuted = false; // 设置当前用户的解除禁言状态
                         }
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         }
         else{
             break;
         }
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void ServerWorker::sendMessage(const QString &text, const QString &type)//向客户端发送消息
@@ -134,7 +110,6 @@ void ServerWorker::sendJson(const QJsonObject &json)
     QDataStream socketStream(m_serverSocket);
     socketStream.setVersion(QDataStream::Qt_6_2);
     socketStream << jsonData;
-<<<<<<< HEAD
 
 
     if (json["type"].toString() == "mute") {
@@ -145,6 +120,4 @@ void ServerWorker::sendJson(const QJsonObject &json)
             // 解除禁言后可以发送消息
         return;
     }
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }

@@ -10,13 +10,9 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-<<<<<<< HEAD
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
-=======
-#include <QtWidgets/QApplication>
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -39,14 +35,11 @@ public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QLabel *titleLabel;
-<<<<<<< HEAD
     QHBoxLayout *horizontalLayout_4;
     QPushButton *logoutButton;
     QSpacerItem *horizontalSpacer_3;
     QPushButton *returnButton;
     QHBoxLayout *horizontalLayout_3;
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     QStackedWidget *stackedWidget;
     QWidget *chatPage;
     QVBoxLayout *verticalLayout_3;
@@ -56,16 +49,12 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLineEdit *sayLineEdit;
     QPushButton *sayButton;
-<<<<<<< HEAD
     QComboBox *privateTargetComboBox;
     QPushButton *privateSayButton;
     QPushButton *historyButton;
     QPushButton *kickButton;
     QPushButton *muteButton;
     QPushButton *ummuteButton;
-=======
-    QPushButton *logoutButton;
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     QWidget *loginPage;
     QGridLayout *gridLayout_3;
     QSpacerItem *verticalSpacer_3;
@@ -74,17 +63,11 @@ public:
     QVBoxLayout *verticalLayout_2;
     QGridLayout *gridLayout;
     QLabel *label_2;
-<<<<<<< HEAD
     QLineEdit *serverEdit;
     QLabel *label_3;
     QLineEdit *usernameEdit;
     QLineEdit *passwordEdit;
     QLabel *label;
-=======
-    QLabel *label_3;
-    QLineEdit *usernameEdit;
-    QLineEdit *serverEdit;
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     QSpacerItem *verticalSpacer;
     QPushButton *loginButton;
     QSpacerItem *horizontalSpacer_2;
@@ -94,11 +77,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-<<<<<<< HEAD
         MainWindow->resize(735, 426);
-=======
-        MainWindow->resize(591, 426);
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -128,7 +107,6 @@ public:
 
         verticalLayout->addWidget(titleLabel);
 
-<<<<<<< HEAD
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName("horizontalLayout_4");
         logoutButton = new QPushButton(centralwidget);
@@ -161,8 +139,6 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_3);
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         stackedWidget = new QStackedWidget(centralwidget);
         stackedWidget->setObjectName("stackedWidget");
         chatPage = new QWidget();
@@ -189,17 +165,13 @@ public:
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         sayLineEdit = new QLineEdit(chatPage);
         sayLineEdit->setObjectName("sayLineEdit");
-<<<<<<< HEAD
         sayLineEdit->setMinimumSize(QSize(180, 0));
         sayLineEdit->setMaximumSize(QSize(320, 16777215));
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
         horizontalLayout_2->addWidget(sayLineEdit);
 
         sayButton = new QPushButton(chatPage);
         sayButton->setObjectName("sayButton");
-<<<<<<< HEAD
         sayButton->setMinimumSize(QSize(50, 0));
         sayButton->setMaximumSize(QSize(60, 16777215));
 
@@ -207,6 +179,7 @@ public:
 
         privateTargetComboBox = new QComboBox(chatPage);
         privateTargetComboBox->setObjectName("privateTargetComboBox");
+        privateTargetComboBox->setMinimumSize(QSize(90, 0));
 
         horizontalLayout_2->addWidget(privateTargetComboBox);
 
@@ -244,15 +217,6 @@ public:
         ummuteButton->setMaximumSize(QSize(80, 16777215));
 
         horizontalLayout_2->addWidget(ummuteButton);
-=======
-
-        horizontalLayout_2->addWidget(sayButton);
-
-        logoutButton = new QPushButton(chatPage);
-        logoutButton->setObjectName("logoutButton");
-
-        horizontalLayout_2->addWidget(logoutButton);
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 
         verticalLayout_3->addLayout(horizontalLayout_2);
@@ -289,14 +253,11 @@ public:
 
         gridLayout->addWidget(label_2, 0, 0, 1, 1);
 
-<<<<<<< HEAD
         serverEdit = new QLineEdit(loginFrame);
         serverEdit->setObjectName("serverEdit");
 
         gridLayout->addWidget(serverEdit, 0, 1, 1, 1);
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         label_3 = new QLabel(loginFrame);
         label_3->setObjectName("label_3");
 
@@ -307,9 +268,9 @@ public:
 
         gridLayout->addWidget(usernameEdit, 1, 1, 1, 1);
 
-<<<<<<< HEAD
         passwordEdit = new QLineEdit(loginFrame);
         passwordEdit->setObjectName("passwordEdit");
+        passwordEdit->setEchoMode(QLineEdit::EchoMode::Password);
 
         gridLayout->addWidget(passwordEdit, 2, 1, 1, 1);
 
@@ -317,12 +278,6 @@ public:
         label->setObjectName("label");
 
         gridLayout->addWidget(label, 2, 0, 1, 1);
-=======
-        serverEdit = new QLineEdit(loginFrame);
-        serverEdit->setObjectName("serverEdit");
-
-        gridLayout->addWidget(serverEdit, 0, 1, 1, 1);
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 
         verticalLayout_2->addLayout(gridLayout);
@@ -333,12 +288,9 @@ public:
 
         loginButton = new QPushButton(loginFrame);
         loginButton->setObjectName("loginButton");
-<<<<<<< HEAD
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/image/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         loginButton->setIcon(icon2);
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
         verticalLayout_2->addWidget(loginButton);
 
@@ -364,18 +316,10 @@ public:
         QWidget::setTabOrder(roomTextEdit, sayLineEdit);
         QWidget::setTabOrder(sayLineEdit, sayButton);
         QWidget::setTabOrder(sayButton, userListWidget);
-<<<<<<< HEAD
-
-        retranslateUi(MainWindow);
-
-        stackedWidget->setCurrentIndex(1);
-=======
-        QWidget::setTabOrder(userListWidget, logoutButton);
 
         retranslateUi(MainWindow);
 
         stackedWidget->setCurrentIndex(0);
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -385,10 +329,11 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\350\201\212\345\244\251\345\256\244\345\256\242\346\210\267\347\253\257", nullptr));
         titleLabel->setText(QCoreApplication::translate("MainWindow", "\351\203\255\346\231\223\347\272\257\347\232\204\350\201\212\345\244\251\345\256\244", nullptr));
-<<<<<<< HEAD
         logoutButton->setText(QCoreApplication::translate("MainWindow", "\351\200\200\345\207\272", nullptr));
         returnButton->setText(QCoreApplication::translate("MainWindow", "\350\277\224\345\233\236", nullptr));
+        sayLineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\350\276\223\345\205\245\346\266\210\346\201\257", nullptr));
         sayButton->setText(QCoreApplication::translate("MainWindow", "\347\276\244\345\217\221", nullptr));
+        privateTargetComboBox->setPlaceholderText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251\347\224\250\346\210\267", nullptr));
         privateSayButton->setText(QCoreApplication::translate("MainWindow", "\347\247\201\350\201\212", nullptr));
         historyButton->setText(QCoreApplication::translate("MainWindow", "\350\256\260\345\275\225", nullptr));
         kickButton->setText(QCoreApplication::translate("MainWindow", "\350\270\242\345\207\272", nullptr));
@@ -399,14 +344,6 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "\346\230\265\347\247\260\357\274\232", nullptr));
         usernameEdit->setText(QString());
         label->setText(QCoreApplication::translate("MainWindow", "\345\257\206\347\240\201\357\274\232", nullptr));
-=======
-        sayButton->setText(QCoreApplication::translate("MainWindow", "\345\217\221\351\200\201", nullptr));
-        logoutButton->setText(QCoreApplication::translate("MainWindow", "\351\200\200\345\207\272", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "\346\234\215\345\212\241\345\231\250\345\234\260\345\235\200\357\274\232", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "\346\230\265\347\247\260\357\274\232", nullptr));
-        usernameEdit->setText(QCoreApplication::translate("MainWindow", "guo", nullptr));
-        serverEdit->setText(QCoreApplication::translate("MainWindow", "127.0.0.1", nullptr));
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         loginButton->setText(QCoreApplication::translate("MainWindow", "\347\231\273\345\275\225\350\201\212\345\244\251\345\256\244", nullptr));
     } // retranslateUi
 

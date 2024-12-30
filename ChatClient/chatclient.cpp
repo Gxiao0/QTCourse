@@ -1,15 +1,8 @@
 #include "chatclient.h"
-<<<<<<< HEAD
 #include <QDataStream>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QMessageBox>
-=======
-
-#include <QDataStream>
-#include <QJsonObject>
-#include <QJsonDocument>
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 ChatClient::ChatClient(QObject *parent)
     : QObject{parent}
@@ -19,7 +12,6 @@ ChatClient::ChatClient(QObject *parent)
     connect(m_clientSocket, &QTcpSocket::readyRead, this, &ChatClient::onReadyRead);
 }
 
-<<<<<<< HEAD
 void ChatClient::setMuted(bool muted)
 {
     if (m_isMuted != muted) {
@@ -38,8 +30,6 @@ bool ChatClient::isMuted() const
     return m_isMuted;
 }
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 void ChatClient::onReadyRead()
 {
     QByteArray jsonData;//存放读取到的数据
@@ -51,16 +41,11 @@ void ChatClient::onReadyRead()
         socketStream >> jsonData;//从QDataStream中读取数据到jsonData,>>为写入数据
 
         if(socketStream.commitTransaction()){//事务提交成功
-<<<<<<< HEAD
-=======
-
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
             QJsonParseError parseError;
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error == QJsonParseError::NoError){
                 if(jsonDoc.isObject()){
                     emit jsonReceived(jsonDoc.object());
-<<<<<<< HEAD
 
                     QJsonObject jsonDocObj = jsonDoc.object();
                     if(jsonDocObj["type"] == "mute"){
@@ -74,10 +59,6 @@ void ChatClient::onReadyRead()
                         qDebug() << "Client received unmute message.";
                         setMuted(false);
                     }
-
-
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
                 }
             }
         }
@@ -87,35 +68,25 @@ void ChatClient::onReadyRead()
     }
 }
 
-<<<<<<< HEAD
 void ChatClient::sendMessage(const QString &text, const QString &type, const QString &target, bool isAdmin)
 {
 
     if (m_isMuted) {
         emit messageReceived("当前处于禁言状态，无法发送信息"); // 发送禁言通知
         qDebug() << "Message not sent due to mute state";
-        return; // 如果处于禁言状态，不发送消息
+        return;
     }
 
     if(m_clientSocket->state() != QAbstractSocket::ConnectedState)//先判断当前m_serverSocket的状态是否为已连接状态
         return;
 
     if(!text.isEmpty() || type == "disconnect" || type == "kick"){
-=======
-void ChatClient::sendMessage(const QString &text, const QString &type)
-{
-    if(m_clientSocket->state() != QAbstractSocket::ConnectedState)//先判断当前m_serverSocket的状态是否为已连接状态
-        return;
-
-    if(!text.isEmpty()){
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         QDataStream serverStream(m_clientSocket);
         serverStream.setVersion(QDataStream::Qt_6_7);
 
         QJsonObject message;
         message["type"]=type;
         message["text"]=text;
-<<<<<<< HEAD
         if (type == "private" || type == "kick" ) {
             message["target"] = target;  // 如果是私聊消息，设置接收方用户名
         }
@@ -126,11 +97,6 @@ void ChatClient::sendMessage(const QString &text, const QString &type)
 
         }
         serverStream <<QJsonDocument(message).toJson();//<<操作符将各种数据类型写入QDataStream
-=======
-
-        serverStream <<QJsonDocument(message).toJson();//<<操作符将各种数据类型写入QDataStream
-
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     }
 }
 
@@ -141,7 +107,6 @@ void ChatClient::connectToServer(const QHostAddress &address, quint16 port)
 
 void ChatClient::disconnectFromHost()
 {
-<<<<<<< HEAD
     // 构造表示断开连接的消息
     QJsonObject disconnectMsg;
     disconnectMsg["type"] = "disconnect";
@@ -150,7 +115,3 @@ void ChatClient::disconnectFromHost()
 }
 
 
-=======
-    m_clientSocket->disconnectFromHost();
-}
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39

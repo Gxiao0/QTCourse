@@ -83,6 +83,7 @@ public:
     void retranslateUi(QDialog *HistoryDialog)
     {
         HistoryDialog->setWindowTitle(QCoreApplication::translate("HistoryDialog", "Dialog", nullptr));
+        lineEdit->setPlaceholderText(QCoreApplication::translate("HistoryDialog", "\350\276\223\345\205\245\345\205\263\351\224\256\345\255\227", nullptr));
         searchButton->setText(QCoreApplication::translate("HistoryDialog", "\346\220\234\347\264\242", nullptr));
         timeButton->setText(QCoreApplication::translate("HistoryDialog", "\346\227\266\351\227\264", nullptr));
         userButton->setText(QCoreApplication::translate("HistoryDialog", "\347\224\250\346\210\267", nullptr));

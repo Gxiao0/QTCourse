@@ -3,7 +3,6 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-<<<<<<< HEAD
 ChatServer::ChatServer(QObject *parent)
     :QTcpServer(parent) {
     m_pool = new QThreadPool(this);
@@ -24,18 +23,10 @@ ChatServer::~ChatServer()
 }
 
 void ChatServer::run(){}
-=======
-
-ChatServer::ChatServer(QObject *parent):QTcpServer(parent)
-{
-
-}
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 void ChatServer::incomingConnection(qintptr socketDescriptor)
 {
     ServerWorker *worker=new ServerWorker(this);
-<<<<<<< HEAD
 
     if(!worker->setSocketDescriptor(socketDescriptor)){
         worker->deleteLater();//该函数执行后再删除
@@ -51,23 +42,10 @@ void ChatServer::incomingConnection(qintptr socketDescriptor)
     thread->start();
     m_clients.append(worker);//连接成功，就将该客户端放进m_clients列表中
     emit logMessage("新的用户连接上了");//有新连接就发一个消息
-=======
-        if(!worker->setSocketDescriptor(socketDescriptor)){
-            worker->deleteLater();//该函数执行后再删除
-            return;
-        }
-        connect(worker,&ServerWorker::logMessage,this,&ChatServer::logMessage);
-        connect(worker, &ServerWorker::jsonReceived, this, &ChatServer::jsonReceived);
-        connect(worker, &ServerWorker::disconnectedFromClient, this, std::bind(&ChatServer::userDisconnected, this, worker));
-
-        m_clients.append(worker);//连接成功，就将该客户端放进m_clients列表中
-        emit logMessage("新的用户连接上了");//有新连接就发一个消息
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
 }
 
 
-<<<<<<< HEAD
 void ChatServer::broadcast(const QJsonObject &message, ServerWorker *exclude)
 {
     m_clientListMutex.lock();
@@ -85,27 +63,11 @@ void ChatServer::stopServer()
 {
     close();//调用QTcpServer的close()
     m_pool->clear();
-=======
-
-void ChatServer::broadcast(const QJsonObject &message, ServerWorker *exclude)
-{
-    for(ServerWorker *worker: m_clients){
-        worker->sendJson(message);
-    }
-}
-
-void ChatServer::stopServer()
-{
-    close();//调用QTcpServer的close()
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
 {
-<<<<<<< HEAD
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     const QJsonValue typeVal = docObj.value("type");
     if(typeVal.isNull() || !typeVal.isString())
         return;
@@ -123,7 +85,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         message["type"] = "message";
         message["text"] = text;
         message["sender"] = sender->userName();//服务器转发消息时要声明是转发给哪个客户端
-<<<<<<< HEAD
         bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
         // 如果发送者是管理员，修改消息格式
         if (isAdmin) {
@@ -143,8 +104,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         if (!query.exec()) {
             qDebug() << "Failed to insert into chat_history:" << query.lastError();
         }
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
         broadcast(message, sender);
     }
@@ -154,7 +113,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
             return;
 
         sender->setUserName(usernameVal.toString());
-<<<<<<< HEAD
         // 获取登录消息中的管理员权限信息并设置
         const QJsonValue isAdminVal = docObj.value("is_admin");
         if (isAdminVal.isBool()) {
@@ -166,8 +124,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
             qDebug() << "User " << usernameVal.toString() << " is not admin.";
         }
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         QJsonObject connectedMessage;
         connectedMessage["type"] = "newuser";
         connectedMessage["username"] = usernameVal.toString();
@@ -185,7 +141,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         userListMessage["userlist"] = userlist;
         sender->sendJson(userListMessage);
     }
-<<<<<<< HEAD
     else if (typeVal.toString().compare("private", Qt::CaseInsensitive) == 0) {
             const QJsonValue targetVal = docObj.value("target");
             if (targetVal.isNull() ||!targetVal.isString())
@@ -274,20 +229,14 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
             broadcast(QJsonObject{{"type", "unmute"}}, sender);
         }
     }
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 }
 
 void ChatServer::userDisconnected(ServerWorker *sender)
 {
-<<<<<<< HEAD
     m_clientListMutex.lock();
     m_clients.removeAll(sender);//从列表中移除sender
     m_clientListMutex.unlock();
 
-=======
-    m_clients.removeAll(sender);//只从列表中移除sender
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     const QString userName = sender->userName();
     if(!userName.isEmpty()){
         QJsonObject disconnectedMessage;
@@ -298,10 +247,7 @@ void ChatServer::userDisconnected(ServerWorker *sender)
     }
     sender->deleteLater();
 }
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39

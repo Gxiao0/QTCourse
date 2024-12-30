@@ -6,11 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-<<<<<<< HEAD
 #include "../../../../ChatServer/mainwindow.h"
-=======
-#include "../../../../../Project/ChatServer/mainwindow.h"
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

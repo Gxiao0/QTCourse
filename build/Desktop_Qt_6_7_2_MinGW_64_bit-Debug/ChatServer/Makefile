@@ -412,10 +412,7 @@ Makefile: ../../../ChatServer/ChatServer.pro D:/Qt/6.7.2/mingw_64/mkspecs/win32-
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl \
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl \
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Network.prl \
-<<<<<<< HEAD
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl \
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 		D:/Qt/6.7.2/mingw_64/lib/Qt6Core.prl \
 		D:/Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl \
 		D:/Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf
@@ -762,10 +759,7 @@ D:/Qt/6.7.2/mingw_64/mkspecs/features/lex.prf:
 D:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl:
 D:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl:
 D:/Qt/6.7.2/mingw_64/lib/Qt6Network.prl:
-<<<<<<< HEAD
 D:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl:
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 D:/Qt/6.7.2/mingw_64/lib/Qt6Core.prl:
 D:/Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl:
 D:/Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf:

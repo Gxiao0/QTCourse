@@ -20,7 +20,11 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="placeholderText">
+        <string>输入关键字</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="searchButton">

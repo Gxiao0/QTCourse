@@ -42,7 +42,6 @@ constexpr auto qt_meta_stringdata_CLASSChatClientENDCLASS = QtMocHelpers::string
     "text",
     "jsonReceived",
     "docObj",
-<<<<<<< HEAD
     "muteChat",
     "unmuteChat",
     "onReadyRead",
@@ -50,11 +49,6 @@ constexpr auto qt_meta_stringdata_CLASSChatClientENDCLASS = QtMocHelpers::string
     "type",
     "target",
     "isAdmin",
-=======
-    "onReadyRead",
-    "sendMessage",
-    "type",
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     "connectToServer",
     "QHostAddress",
     "address",
@@ -72,16 +66,11 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSChatClientENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-<<<<<<< HEAD
       12,   14, // methods
-=======
-       8,   14, // methods
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-<<<<<<< HEAD
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
@@ -99,27 +88,11 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSChatClientENDCLASS[] = {
       10,    1,  117,    2, 0x2a,   21 /* Public | MethodCloned */,
       14,    2,  120,    2, 0x0a,   23 /* Public */,
       18,    0,  125,    2, 0x0a,   26 /* Public */,
-=======
-       3,       // signalCount
-
- // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   62,    2, 0x06,    1 /* Public */,
-       3,    1,   63,    2, 0x06,    2 /* Public */,
-       5,    1,   66,    2, 0x06,    4 /* Public */,
-
- // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       7,    0,   69,    2, 0x0a,    6 /* Public */,
-       8,    2,   70,    2, 0x0a,    7 /* Public */,
-       8,    1,   75,    2, 0x2a,   10 /* Public | MethodCloned */,
-      10,    2,   78,    2, 0x0a,   12 /* Public */,
-      14,    0,   83,    2, 0x0a,   15 /* Public */,
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 
  // signals: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    4,
     QMetaType::Void, QMetaType::QJsonObject,    6,
-<<<<<<< HEAD
     QMetaType::Void,
     QMetaType::Void,
 
@@ -130,14 +103,6 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSChatClientENDCLASS[] = {
     QMetaType::Void, QMetaType::QString, QMetaType::QString,    4,   11,
     QMetaType::Void, QMetaType::QString,    4,
     QMetaType::Void, 0x80000000 | 15, QMetaType::UShort,   16,   17,
-=======
-
- // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString,    4,    9,
-    QMetaType::Void, QMetaType::QString,    4,
-    QMetaType::Void, 0x80000000 | 11, QMetaType::UShort,   12,   13,
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     QMetaType::Void,
 
        0        // eod
@@ -160,20 +125,16 @@ Q_CONSTINIT const QMetaObject ChatClient::staticMetaObject = { {
         // method 'jsonReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QJsonObject &, std::false_type>,
-<<<<<<< HEAD
         // method 'muteChat'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'unmuteChat'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         // method 'onReadyRead'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'sendMessage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-<<<<<<< HEAD
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'sendMessage'
@@ -185,8 +146,6 @@ Q_CONSTINIT const QMetaObject ChatClient::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         // method 'sendMessage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
@@ -209,7 +168,6 @@ void ChatClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->connected(); break;
         case 1: _t->messageReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 2: _t->jsonReceived((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
-<<<<<<< HEAD
         case 3: _t->muteChat(); break;
         case 4: _t->unmuteChat(); break;
         case 5: _t->onReadyRead(); break;
@@ -219,13 +177,6 @@ void ChatClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 9: _t->sendMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 10: _t->connectToServer((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
         case 11: _t->disconnectFromHost(); break;
-=======
-        case 3: _t->onReadyRead(); break;
-        case 4: _t->sendMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 5: _t->sendMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 6: _t->connectToServer((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
-        case 7: _t->disconnectFromHost(); break;
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -251,7 +202,6 @@ void ChatClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 return;
             }
         }
-<<<<<<< HEAD
         {
             using _t = void (ChatClient::*)();
             if (_t _q_method = &ChatClient::muteChat; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
@@ -266,8 +216,6 @@ void ChatClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 return;
             }
         }
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     }
 }
 
@@ -290,7 +238,6 @@ int ChatClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-<<<<<<< HEAD
         if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 12;
@@ -298,15 +245,6 @@ int ChatClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 12)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 12;
-=======
-        if (_id < 8)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 8;
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     }
     return _id;
 }
@@ -330,7 +268,6 @@ void ChatClient::jsonReceived(const QJsonObject & _t1)
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
-<<<<<<< HEAD
 
 // SIGNAL 3
 void ChatClient::muteChat()
@@ -343,6 +280,4 @@ void ChatClient::unmuteChat()
 {
     QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
 }
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
 QT_WARNING_POP

@@ -160,11 +160,8 @@ void *ChatServer::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_CLASSChatServerENDCLASS.stringdata0))
         return static_cast<void*>(this);
-<<<<<<< HEAD
     if (!strcmp(_clname, "QRunnable"))
         return static_cast< QRunnable*>(this);
-=======
->>>>>>> 060a85a2b73e68c2889eb1f4b0c57daaef951a39
     return QTcpServer::qt_metacast(_clname);
 }
 
