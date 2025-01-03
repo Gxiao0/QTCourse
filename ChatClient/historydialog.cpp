@@ -21,8 +21,7 @@ HistoryDialog::~HistoryDialog()
 }
 
 
-void HistoryDialog::on_searchButton_clicked()
-{
+void HistoryDialog::on_searchButton_clicked(){
 
     QString keyword = ui->lineEdit->text().trimmed();
 
@@ -31,20 +30,19 @@ void HistoryDialog::on_searchButton_clicked()
         return;
     }
 
-    if (m_searchByDate) {
+    if (m_searchByDate) {//根据日期搜索
         searchByDate(m_selectedDate);
     }
-    else if (m_searchBySender) {
+    else if (m_searchBySender) {//根据用户搜索
         searchBySender(m_selectedSender);
     }
-    else {
+    else {//根据关键字搜索
         searchByKeyWord(keyword);
     }
 }
 
 
-void HistoryDialog::on_timeButton_clicked()
-{
+void HistoryDialog::on_timeButton_clicked(){
     QDate selectedDate = QDate::currentDate(); // 默认选择当前日期
 
     QDialog dialog(this);

@@ -240,9 +240,7 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
         qDebug() << "MainWindow received unmute message.";
         m_chatClient->setMuted(false);
         handleUnmuteChat();
-
     }
-
 }
 
 void MainWindow::userJoined(const QString &user)
@@ -354,15 +352,14 @@ void MainWindow::on_kickButton_clicked()//踢出按钮
 }
 
 
-void MainWindow::on_userListWidget_itemDoubleClicked(QListWidgetItem *item)
+void MainWindow::on_userListWidget_itemDoubleClicked(QListWidgetItem *item)//选择用户
 {
     QString selectedUser = item->text();
     ui->privateTargetComboBox->setCurrentText(selectedUser);
 }
 
 
-void MainWindow::on_muteButton_clicked()
-{
+void MainWindow::on_muteButton_clicked(){//开启禁言
     if (!m_isAdmin) {
         QMessageBox::warning(this, "权限不足", "您没有权限执行禁言操作");
         return;
@@ -408,8 +405,7 @@ void MainWindow::on_historyButton_clicked()
 
 void MainWindow::on_returnButton_clicked()
 {
-    // 获取当前显示的页面
-    QWidget* currentPage = ui->stackedWidget->currentWidget();
+    QWidget* currentPage = ui->stackedWidget->currentWidget();// 获取当前显示的页面
 
     // 检查当前页面是否为 loginPage 或 chatPage
     if (currentPage == ui->loginPage || currentPage == ui->chatPage) {
@@ -439,7 +435,6 @@ void MainWindow::handleUnmuteChat()
 
     unmuteMessageShown = true;
     locker.unlock(); // 解锁
-
     qDebug() << "Handling unmute chat";
     QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
 
