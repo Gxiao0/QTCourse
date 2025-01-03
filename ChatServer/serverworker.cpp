@@ -64,7 +64,6 @@ void ServerWorker::onReadyRead()//读取客户端发送的数据
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error == QJsonParseError::NoError){
                 if(jsonDoc.isObject()){
-                    qDebug() << "Received JSON:" << QJsonDocument(jsonDoc).toJson();
                     emit logMessage(QJsonDocument(jsonDoc).toJson(QJsonDocument::Compact));
                     emit jsonReceived(this, jsonDoc.object());
                 }

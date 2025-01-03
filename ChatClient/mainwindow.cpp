@@ -21,8 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_chatClient, &ChatClient::jsonReceived, this, &MainWindow::jsonReceived);
     connect(m_chatClient, &ChatClient::muteChat, this, &MainWindow::handleMuteChat);
     connect(m_chatClient, &ChatClient::unmuteChat, this, &MainWindow::handleUnmuteChat);
-    qDebug() << "muteChat signal connected.";
-    qDebug() << "unmuteChat signal connected.";
+
 }
 
 MainWindow::~MainWindow()
@@ -297,7 +296,7 @@ bool MainWindow::createConnection()
 void MainWindow::on_privateSayButton_clicked()//私聊按钮
 {
     if (m_chatClient->isMuted()) {
-        qDebug() << "Message not sent due to mute state.";
+        qDebug() << "Private Message not sent due to mute state.";
         QMessageBox::information(this, "禁言通知", "当前处于禁言状态，无法发送消息");
         return;
     }
@@ -372,14 +371,13 @@ void MainWindow::on_muteButton_clicked()
     qDebug() << "Mute button clicked";
     ui->muteButton->setEnabled(false); // 禁用按钮
 
-    m_chatClient->setMuted(true);
-    //m_chatClient->m_isMuted = true;
+    //m_chatClient->setMuted(true);
+    m_chatClient->m_isMuted = true;
     qDebug() << "Set muted to true";
     m_chatClient->sendMessage("", "mute", "", true);
     qDebug() << "Sent mute message to server";
-    //QMessageBox::information(this, "禁言通知", "管理员开启禁言");
     // 操作完成后重新启用按钮
-    ui->muteButton->setEnabled(true);
+    //ui->muteButton->setEnabled(true);
 }
 
 
@@ -390,15 +388,12 @@ void MainWindow::on_ummuteButton_clicked()
         return;
     }
 
-    qDebug() << "Unmute button clicked";
-    m_chatClient->setMuted(false);
-    //m_chatClient->m_isMuted = false;
-
-    qDebug() << "Set muted to false";
-    m_chatClient->sendMessage("", "unmute", "", false);
+    m_chatClient->m_isMuted = false;
+    //m_chatClient->setMuted(false);
+    m_chatClient->sendMessage("", "unmute", "", true);
     qDebug() << "Sent unmute message to server";
-
-    QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
+    // 重置标志位
+    unmuteMessageShown = false;
     ui->muteButton->setEnabled(true); // 重新启用按钮
 }
 
@@ -428,15 +423,26 @@ void MainWindow::on_returnButton_clicked()
 
 void MainWindow::handleMuteChat()
 {
+    static bool isMuted = false;
+    if (isMuted) return;
+    isMuted = true;
+
     QMessageBox::information(this, "禁言通知", "管理员开启禁言");
-    ui->sayButton->setEnabled(false);
-    ui->privateSayButton->setEnabled(false);
 }
 
 void MainWindow::handleUnmuteChat()
 {
+    QMutexLocker locker(&unmuteMutex);
+    if (unmuteMessageShown) {
+        qDebug() << "Unmute message already shown";
+        return;
+    }
+
+    unmuteMessageShown = true;
+    locker.unlock(); // 解锁
+
+    qDebug() << "Handling unmute chat 1";
     QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
-    ui->sayButton->setEnabled(true);
-    ui->privateSayButton->setEnabled(true);
+
 }
 

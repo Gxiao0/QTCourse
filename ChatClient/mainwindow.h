@@ -51,6 +51,9 @@ private:
     bool inChatPage; //记录是否在聊天界面
     bool userListUpdating; // 新增标志位
     HistoryDialog *historyDialog;
+    bool unmuteMessageShown=false;
+    QMutex unmuteMutex; // 新增互斥锁
+
 
 };
 #endif // MAINWINDOW_H

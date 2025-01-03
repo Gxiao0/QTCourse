@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if(m_chatServer->isListening()) {
+         m_chatServer->stopServer();
+    }
+
     delete ui;
 }
 
@@ -35,7 +39,6 @@ void MainWindow::on_startStopButton_clicked()//启动/停止服务器
         logMessage("服务器已经启动");
         ui->startStopButton->setText("停止服务器");
     }
-
 }
 
 void MainWindow::logMessage(const QString &msg)

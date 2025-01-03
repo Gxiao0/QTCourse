@@ -70,12 +70,9 @@ void ChatClient::sendMessage(const QString &text, const QString &type, const QSt
         return;
     }
 
-    qDebug()<<"send1!";
-    if(!text.isEmpty() || type == "disconnect" || type == "kick" || type == "mute"){
+    if(!text.isEmpty() || type == "disconnect" || type == "kick" || type == "mute" || type == "unmute"){
         QDataStream serverStream(m_clientSocket);
         serverStream.setVersion(QDataStream::Qt_6_7);
-
-        qDebug()<<"send2!";
 
         QJsonObject message;
         message["type"]=type;
@@ -85,7 +82,7 @@ void ChatClient::sendMessage(const QString &text, const QString &type, const QSt
         }
 
         // 如果是管理员且发送类型为message，添加管理员权限信息
-        if (isAdmin && (type == "message" || type == "private" || type == "kick" || type == "mute")) {
+        if (isAdmin && (type == "message" || type == "private" || type == "kick" || type == "mute" || type == "unmute")) {
             message["is_admin"] = true;
         }
 
