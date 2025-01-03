@@ -17,11 +17,6 @@ ChatServer::ChatServer(QObject *parent)
     if (!db.open()) {
         qDebug() << "Cannot open database:" << db.lastError();
     }
-    // if (!this->listen(QHostAddress::Any, 1967)) {
-    //     qDebug() << "Server could not start!";
-    // } else {
-    //     qDebug() << "Server started on port 1967";
-    // }
 }
 
 ChatServer::~ChatServer()
@@ -151,36 +146,36 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         sender->sendJson(userListMessage);
     }
     else if (typeVal.toString().compare("private", Qt::CaseInsensitive) == 0) {
-            const QJsonValue targetVal = docObj.value("target");
-            if (targetVal.isNull() ||!targetVal.isString())
-                return;
+        const QJsonValue targetVal = docObj.value("target");
+        if (targetVal.isNull() ||!targetVal.isString())
+            return;
 
-            const QString target = targetVal.toString();
-            const QJsonValue textVal = docObj.value("text");
+        const QString target = targetVal.toString();
+        const QJsonValue textVal = docObj.value("text");
 
-            if (textVal.isNull() ||!textVal.isString())
-                return;
-            const QString text = textVal.toString().trimmed();
-            if (text.isEmpty())
-                return;
+        if (textVal.isNull() ||!textVal.isString())
+            return;
+        const QString text = textVal.toString().trimmed();
+        if (text.isEmpty())
+            return;
 
-            QJsonObject privateMessage;
-            privateMessage["type"] = "private";
-            privateMessage["text"] = text;
-            //privateMessage["sender"] = sender->userName();
-            // 如果发送者是管理员，修改消息格式
-            bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
-            if (isAdmin) {
-                privateMessage["sender"] = sender->userName() + "[管理员]";
-            }else {
-                privateMessage["sender"] = sender->userName();
+        QJsonObject privateMessage;
+        privateMessage["type"] = "private";
+        privateMessage["text"] = text;
+        //privateMessage["sender"] = sender->userName();
+        // 如果发送者是管理员，修改消息格式
+        bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
+        if (isAdmin) {
+            privateMessage["sender"] = sender->userName() + "[管理员]";
+        }else {
+            privateMessage["sender"] = sender->userName();
+        }
+        for (ServerWorker *worker : m_clients) {
+            if (worker->userName() == target) {
+                worker->sendJson(privateMessage);
+                break;
             }
-            for (ServerWorker *worker : m_clients) {
-                if (worker->userName() == target) {
-                    worker->sendJson(privateMessage);
-                    break;
-                }
-            }
+        }
     }
     else if(typeVal.toString().compare("kick", Qt::CaseInsensitive) == 0){
         // 检查发送者是否为管理员

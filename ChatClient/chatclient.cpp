@@ -57,13 +57,6 @@ void ChatClient::onReadyRead()
 
 void ChatClient::sendMessage(const QString &text, const QString &type, const QString &target, bool isAdmin)
 {
-
-    // if (m_isMuted) {
-    //     emit messageReceived("当前处于禁言状态，无法发送信息"); // 发送禁言通知
-    //     qDebug() << "Message not sent due to mute state";
-    //     return;
-    // }
-
     qDebug() << "sendMessage called with type:" << type;
     if(m_clientSocket->state() != QAbstractSocket::ConnectedState){//先判断当前m_serverSocket的状态是否为已连接状态
         qDebug() << "Socket is not connected, cannot send message.";

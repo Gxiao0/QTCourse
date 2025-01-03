@@ -376,8 +376,7 @@ void MainWindow::on_muteButton_clicked()
     qDebug() << "Set muted to true";
     m_chatClient->sendMessage("", "mute", "", true);
     qDebug() << "Sent mute message to server";
-    // 操作完成后重新启用按钮
-    //ui->muteButton->setEnabled(true);
+
 }
 
 
@@ -394,7 +393,7 @@ void MainWindow::on_ummuteButton_clicked()
     qDebug() << "Sent unmute message to server";
     // 重置标志位
     unmuteMessageShown = false;
-    ui->muteButton->setEnabled(true); // 重新启用按钮
+
 }
 
 void MainWindow::on_historyButton_clicked()
@@ -441,7 +440,7 @@ void MainWindow::handleUnmuteChat()
     unmuteMessageShown = true;
     locker.unlock(); // 解锁
 
-    qDebug() << "Handling unmute chat 1";
+    qDebug() << "Handling unmute chat";
     QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
 
 }
