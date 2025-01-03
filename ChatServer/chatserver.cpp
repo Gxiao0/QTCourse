@@ -3,8 +3,11 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+
+
 ChatServer::ChatServer(QObject *parent)
     :QTcpServer(parent) {
+
     m_pool = new QThreadPool(this);
     m_pool->setMaxThreadCount(10); // 设置最大线程数
 
@@ -14,6 +17,11 @@ ChatServer::ChatServer(QObject *parent)
     if (!db.open()) {
         qDebug() << "Cannot open database:" << db.lastError();
     }
+    if (!this->listen(QHostAddress::Any, 1967)) {
+            qDebug() << "Server could not start!";
+        } else {
+            qDebug() << "Server started on port 1967";
+        }
 }
 
 ChatServer::~ChatServer()
@@ -33,10 +41,10 @@ void ChatServer::incomingConnection(qintptr socketDescriptor)
         return;
     }
     connect(worker,&ServerWorker::logMessage,this,&ChatServer::logMessage);
-    connect(worker, &ServerWorker::jsonReceived, this, &ChatServer::jsonReceived);
+    connect(worker, &ServerWorker::jsonReceived, this, &ChatServer::jsonReceived, Qt::QueuedConnection);
     connect(worker, &ServerWorker::disconnectFromClient, this, std::bind(&ChatServer::userDisconnected, this, worker));
 
-        // 创建一个新的线程并移动 worker 到该线程
+    // 创建一个新的线程并移动 worker 到该线程
     QThread *thread = new QThread;
     worker->moveToThread(thread);
     thread->start();
@@ -67,6 +75,8 @@ void ChatServer::stopServer()
 
 void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
 {
+    qDebug() << "jsonReceived called";
+    qDebug() << "Server received a message from" << sender->userName(); // 添加这行日志
 
     const QJsonValue typeVal = docObj.value("type");
     if(typeVal.isNull() || !typeVal.isString())
@@ -127,6 +137,7 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         QJsonObject connectedMessage;
         connectedMessage["type"] = "newuser";
         connectedMessage["username"] = usernameVal.toString();
+        connectedMessage["is_muted"] = m_isMuted; // 添加当前禁言状态
         broadcast(connectedMessage, sender);
 
         QJsonObject userListMessage;
@@ -213,22 +224,40 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         userDisconnected(sender);
         return;
     }
-    else if(typeVal.toString().compare("mute", Qt::CaseInsensitive) == 0){
-        // 管理员发来的禁言消息
-        if (sender->isAdmin()) { // 需要检查发起禁言请求的用户是否为管理员
-            m_isMuted = true; // 更新全局禁言状态
-            qDebug() << "Server: Mute activated by admin.";
-            emit logMessage("管理员开启禁言");
-            broadcast(QJsonObject{{"type", "mute"}}, sender);
-       }
+    else if (typeVal.toString().compare("mute", Qt::CaseInsensitive) == 0){
+        qDebug()<<"12!";
+        bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
+        if(!isAdmin){
+            qDebug()<<"不是管理员";
+            return;
+        }
+
+        QString senderName = docObj.value("sender").toString();
+        qDebug() << "Server received mute message from" << senderName;
+\
+        m_isMuted = true;
+        qDebug() << "Server: Mute activated by admin.";
+        emit logMessage("管理员开启禁言");
+
+        QJsonObject muteMessage;
+        muteMessage["type"]="mute";
+        muteMessage["is_muted"] = true;
+        broadcast(muteMessage,nullptr);
+        qDebug()<<"chatserver broadcast";
     }
     else if(typeVal.toString().compare("unmute", Qt::CaseInsensitive) == 0){
-        if (sender->isAdmin()) { // 需要检查发起解除禁言请求的用户是否为管理员
-            m_isMuted = false; // 更新全局禁言状态
-            qDebug() << "Server: Unmute activated by admin.";
-            emit logMessage("管理员解除禁言");
-            broadcast(QJsonObject{{"type", "unmute"}}, sender);
-        }
+        bool isAdmin = docObj.contains("is_admin") && docObj.value("is_admin").toBool();
+        if(!isAdmin)
+            return;
+
+        m_isMuted = false; // 更新全局禁言状态
+        qDebug() << "Server: Unmute activated by admin.";
+        emit logMessage("管理员解除禁言");
+        QJsonObject unmuteMessage;
+        unmuteMessage["type"]="unmute";
+        unmuteMessage["is_muted"] = false;
+        broadcast(unmuteMessage, nullptr);
+
     }
 }
 
@@ -244,11 +273,7 @@ void ChatServer::userDisconnected(ServerWorker *sender)
         disconnectedMessage["type"] = "userdisconnected";
         disconnectedMessage["username"] = userName;
         broadcast(disconnectedMessage, nullptr);
-        emit logMessage(userName + "disconnected");
+        emit logMessage(userName + " disconnected");
     }
     sender->deleteLater();
 }
-
-
-
-

@@ -4,6 +4,7 @@
 #include <QObject>
 #include<QTcpSocket>
 #include <QMessageBox>
+#include <QMutex>
 
 class ChatClient : public QObject
 {
@@ -13,7 +14,7 @@ public:
     bool isAdmin() const {return m_isAdmin;}
     void setAdminStatus(bool isAdmin){m_isAdmin = isAdmin;}
     void setMuted(bool muted);
-    bool isMuted() const;
+    bool isMuted();
     bool m_isMuted = false;
 
 signals:
@@ -27,6 +28,7 @@ private:
     QTcpSocket *m_clientSocket;
     bool m_isAdmin = false;
     bool alreadyNotified = false;
+    QMutex m_muteMutex; // 互斥锁保护全局禁言状态
 
 
 public slots:

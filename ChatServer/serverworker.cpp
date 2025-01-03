@@ -12,7 +12,7 @@ ServerWorker::ServerWorker(QObject *parent)
     m_serverSocket=new QTcpSocket(this);//创建对象，用于处理和对应的客户端进行网络数据通信
     connect(m_serverSocket,&QTcpSocket::readyRead,this,&ServerWorker::onReadyRead);//当客户端发送的数据到达并可读取时(readyRead信号被触发),就会调用onReadyRead函数来处理接收到的数据
     connect(m_serverSocket, &QTcpSocket::disconnected, this, &ServerWorker::disconnectFromClient);
-
+    //connect(worker, &ServerWorker::disconnectFromClient, this, std::bind(&ChatServer::userDisconnected, this, worker));
 }
 
 bool ServerWorker::setSocketDescriptor(qintptr socketDescriptor)
@@ -31,12 +31,12 @@ void ServerWorker::setUserName(QString user)
     m_userName = user;
 }
 
-void ServerWorker::disconnectFromClient()
-{
-    qDebug() << "ServerWorker::disconnectFromClient called.";
-    m_serverSocket->disconnectFromHost();
-    deleteLater(); // 确保对象被删除
-}
+// void ServerWorker::disconnectFromClient()
+// {
+//     qDebug() << "ServerWorker::disconnectFromClient called.";
+//     m_serverSocket->disconnectFromHost();
+//     deleteLater(); // 确保对象被删除
+// }
 
 bool ServerWorker::isAdmin()
 {
@@ -64,18 +64,11 @@ void ServerWorker::onReadyRead()//读取客户端发送的数据
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error == QJsonParseError::NoError){
                 if(jsonDoc.isObject()){
+                    qDebug() << "Received JSON:" << QJsonDocument(jsonDoc).toJson();
                     emit logMessage(QJsonDocument(jsonDoc).toJson(QJsonDocument::Compact));
                     emit jsonReceived(this, jsonDoc.object());
                 }
             }
-
-            if (jsonDoc["type"] == "mute") {
-                            m_isMuted = true; // 设置当前用户的禁言状态
-                            // Optional: Мaybe notify the user about the mute if necessary
-                        } else if (jsonDoc["type"] == "unmute") {
-                            m_isMuted = false; // 设置当前用户的解除禁言状态
-                        }
-
         }
         else{
             break;
@@ -111,13 +104,4 @@ void ServerWorker::sendJson(const QJsonObject &json)
     socketStream.setVersion(QDataStream::Qt_6_2);
     socketStream << jsonData;
 
-
-    if (json["type"].toString() == "mute") {
-            // 禁言状态下不发送消息
-        return;
-    }
-    if (json["type"].toString() == "unmute") {
-            // 解除禁言后可以发送消息
-        return;
-    }
 }

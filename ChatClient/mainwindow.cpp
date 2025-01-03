@@ -19,12 +19,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_chatClient = new ChatClient(this);
     connect(m_chatClient,&ChatClient::connected, this, &MainWindow::connectedToServer);
     connect(m_chatClient, &ChatClient::jsonReceived, this, &MainWindow::jsonReceived);
-
-    //disconnect(m_chatClient, &ChatClient::muteChat, this, &MainWindow::on_muteButton_clicked);
-    connect(m_chatClient, &ChatClient::muteChat, this, &MainWindow::on_muteButton_clicked);
+    connect(m_chatClient, &ChatClient::muteChat, this, &MainWindow::handleMuteChat);
+    connect(m_chatClient, &ChatClient::unmuteChat, this, &MainWindow::handleUnmuteChat);
     qDebug() << "muteChat signal connected.";
-
-    connect(m_chatClient, &ChatClient::unmuteChat, this, &MainWindow::on_ummuteButton_clicked);
     qDebug() << "unmuteChat signal connected.";
 }
 
@@ -179,10 +176,18 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
     }
     else if(typeVal.toString().compare("newuser",Qt::CaseInsensitive) == 0){
         const QJsonValue usernameVal = docObj.value("username");
+
+        bool isMuted = docObj["is_muted"].toBool();
+
         if(usernameVal.isNull() || !usernameVal.isString())
             return;
 
         userJoined(usernameVal.toString());
+
+        if(isMuted){
+            m_chatClient->setMuted(true);
+
+        }
     }
     else if(typeVal.toString().compare("userdisconnected",Qt::CaseInsensitive) == 0){
         const QJsonValue usernameVal = docObj.value("username");
@@ -230,14 +235,14 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
     else if(typeVal.toString().compare("mute", Qt::CaseInsensitive) == 0){
         qDebug() << "MainWindow received mute message.";
         m_chatClient->setMuted(true);
-        QMessageBox::information(this, "禁言通知", "管理员开启禁言");
+        handleMuteChat();
     }
     else if(typeVal.toString().compare("unmute", Qt::CaseInsensitive) == 0){
         qDebug() << "MainWindow received unmute message.";
         m_chatClient->setMuted(false);
-        QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
-    }
+        handleUnmuteChat();
 
+    }
 
 }
 
@@ -291,6 +296,12 @@ bool MainWindow::createConnection()
 
 void MainWindow::on_privateSayButton_clicked()//私聊按钮
 {
+    if (m_chatClient->isMuted()) {
+        qDebug() << "Message not sent due to mute state.";
+        QMessageBox::information(this, "禁言通知", "当前处于禁言状态，无法发送消息");
+        return;
+    }
+
     QString text = ui->sayLineEdit->text();
     if(text.isEmpty())
         return;
@@ -361,12 +372,12 @@ void MainWindow::on_muteButton_clicked()
     qDebug() << "Mute button clicked";
     ui->muteButton->setEnabled(false); // 禁用按钮
 
-    //m_chatClient->setMuted(true);
-   m_chatClient->m_isMuted = true;
+    m_chatClient->setMuted(true);
+    //m_chatClient->m_isMuted = true;
     qDebug() << "Set muted to true";
-   m_chatClient->sendMessage("", "mute", "", true);
+    m_chatClient->sendMessage("", "mute", "", true);
     qDebug() << "Sent mute message to server";
-    QMessageBox::information(this, "禁言通知", "管理员开启禁言");
+    //QMessageBox::information(this, "禁言通知", "管理员开启禁言");
     // 操作完成后重新启用按钮
     ui->muteButton->setEnabled(true);
 }
@@ -380,10 +391,11 @@ void MainWindow::on_ummuteButton_clicked()
     }
 
     qDebug() << "Unmute button clicked";
-    m_chatClient->m_isMuted = false;
+    m_chatClient->setMuted(false);
+    //m_chatClient->m_isMuted = false;
 
     qDebug() << "Set muted to false";
-    m_chatClient->sendMessage("", "unmute", "", m_isAdmin);
+    m_chatClient->sendMessage("", "unmute", "", false);
     qDebug() << "Sent unmute message to server";
 
     QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
@@ -412,5 +424,19 @@ void MainWindow::on_returnButton_clicked()
     }
 
     ui->stackedWidget->setCurrentWidget(ui->chatPage);
+}
+
+void MainWindow::handleMuteChat()
+{
+    QMessageBox::information(this, "禁言通知", "管理员开启禁言");
+    ui->sayButton->setEnabled(false);
+    ui->privateSayButton->setEnabled(false);
+}
+
+void MainWindow::handleUnmuteChat()
+{
+    QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
+    ui->sayButton->setEnabled(true);
+    ui->privateSayButton->setEnabled(true);
 }
 

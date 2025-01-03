@@ -39,12 +39,10 @@ private slots:
     void on_userListWidget_itemDoubleClicked(QListWidgetItem *item);
     void on_muteButton_clicked();
     void on_ummuteButton_clicked();
-
-
     void on_historyButton_clicked();
-
-
     void on_returnButton_clicked();
+    void handleMuteChat();
+    void handleUnmuteChat();
 
 private:
     Ui::MainWindow *ui;

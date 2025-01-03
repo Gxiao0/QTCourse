@@ -13,7 +13,7 @@ public:
     virtual bool setSocketDescriptor(qintptr socketDescriptor);
     QString userName();
     void setUserName(QString user);
-    void disconnectFromClient();
+    //void disconnectFromClient();
     bool isAdmin();
     void setIsAdmin(bool isAdmin);
 
@@ -21,6 +21,7 @@ public:
 signals:
     void logMessage(const QString &msg);
     void jsonReceived(ServerWorker *sender, const QJsonObject &docObj);
+    void disconnectFromClient();
 
 
 public slots:
