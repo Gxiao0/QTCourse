@@ -115,8 +115,7 @@ void MainWindow::connectedToServer()
     inChatPage = true; // 设置为在聊天界面
     m_chatClient->sendMessage(ui->usernameEdit->text(),"login");
 
-    // 设置privateTargetComboBox默认不选择任何用户
-    ui->privateTargetComboBox->setCurrentIndex(-1);
+    ui->privateTargetComboBox->setCurrentIndex(-1);// 设置默认不选择任何用户
 }
 
 void MainWindow::messageReceived(const QString &sender, const QString &text)
@@ -175,17 +174,14 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
     }
     else if(typeVal.toString().compare("newuser",Qt::CaseInsensitive) == 0){
         const QJsonValue usernameVal = docObj.value("username");
-
         bool isMuted = docObj["is_muted"].toBool();
 
         if(usernameVal.isNull() || !usernameVal.isString())
             return;
 
         userJoined(usernameVal.toString());
-
         if(isMuted){
             m_chatClient->setMuted(true);
-
         }
     }
     else if(typeVal.toString().compare("userdisconnected",Qt::CaseInsensitive) == 0){
@@ -206,8 +202,10 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
     }
     else if(typeVal.toString().compare("userKicked", Qt::CaseInsensitive) == 0){
         const QJsonValue usernameVal = docObj.value("username");
-        if(usernameVal.isNull() || !usernameVal.isString())
+        if(usernameVal.isNull() || !usernameVal.isString()){
+            qDebug()<<"为空";
             return;
+        }
 
         QString username = usernameVal.toString();
         // 从 privateTargetComboBox 中移除被踢出的用户
@@ -218,7 +216,6 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
 
         // 如果被踢出的是当前用户，断开连接并返回登录界面
         if(username == ui->usernameEdit->text() && inChatPage){
-
             QMessageBox::warning(this, "被踢出", "您已被管理员踢出聊天室。");
             m_chatClient->disconnectFromHost();
             ui->stackedWidget->setCurrentWidget(ui->loginPage);
@@ -229,7 +226,6 @@ void MainWindow::jsonReceived(const QJsonObject &docObj)
             ui->roomTextEdit->append(QString("%1已被管理员踢出群聊").arg(username));
             userLeft(username);
         }
-        //return;
     }
     else if(typeVal.toString().compare("mute", Qt::CaseInsensitive) == 0){
         qDebug() << "MainWindow received mute message.";
@@ -305,15 +301,12 @@ void MainWindow::on_privateSayButton_clicked()//私聊按钮
 
     QString selectedTarget = ui->privateTargetComboBox->currentText();
     bool isAdmin = m_isAdmin && !selectedTarget.isEmpty(); // 根据当前用户的管理员状态传递参数
-
     if (selectedTarget.isEmpty()) {
         // 如果没有选择私聊对象，发送公开消息
         m_chatClient->sendMessage(text, "message", "", m_isAdmin);
     } else {
-        // 如果选择了私聊对象，发送私聊消息
-        m_chatClient->sendMessage(text, "private", selectedTarget,isAdmin);
-            // 将发送的私聊消息显示在自己的聊天界面
-        ui->roomTextEdit->append(QString("(我私聊%1) : %2").arg(selectedTarget).arg(text));
+        m_chatClient->sendMessage(text, "private", selectedTarget,isAdmin);// 如果选择了私聊对象，发送私聊消息
+        ui->roomTextEdit->append(QString("(我私聊%1) : %2").arg(selectedTarget).arg(text));// 将发送的私聊消息显示在自己的聊天界面
     }
 }
 
@@ -334,8 +327,7 @@ void MainWindow::on_kickButton_clicked()//踢出按钮
 
     QString selectedUser = currentItem->text();
     if (!selectedUser.isEmpty()) {
-        // 发送踢出指令给服务器，这里假设"kick"是踢出指令类型
-        m_chatClient->sendMessage("", "kick", selectedUser, m_isAdmin);
+        m_chatClient->sendMessage("", "kick", selectedUser, m_isAdmin);// 发送踢出指令给服务器
 
         // 从本地用户列表中移除被踢用户
         for (auto aItem : ui->userListWidget->findItems(selectedUser, Qt::MatchExactly)) {
@@ -388,9 +380,7 @@ void MainWindow::on_ummuteButton_clicked()
     //m_chatClient->setMuted(false);
     m_chatClient->sendMessage("", "unmute", "", true);
     qDebug() << "Sent unmute message to server";
-    // 重置标志位
     unmuteMessageShown = false;
-
 }
 
 void MainWindow::on_historyButton_clicked()
@@ -409,10 +399,8 @@ void MainWindow::on_returnButton_clicked()
 
     // 检查当前页面是否为 loginPage 或 chatPage
     if (currentPage == ui->loginPage || currentPage == ui->chatPage) {
-        // 如果是，则不执行任何操作，按钮无效
         return;
     }
-
     ui->stackedWidget->setCurrentWidget(ui->chatPage);
 }
 
@@ -421,7 +409,6 @@ void MainWindow::handleMuteChat()
     static bool isMuted = false;
     if (isMuted) return;
     isMuted = true;
-
     QMessageBox::information(this, "禁言通知", "管理员开启禁言");
 }
 
@@ -432,11 +419,9 @@ void MainWindow::handleUnmuteChat()
         qDebug() << "Unmute message already shown";
         return;
     }
-
     unmuteMessageShown = true;
     locker.unlock(); // 解锁
     qDebug() << "Handling unmute chat";
     QMessageBox::information(this, "解除禁言通知", "管理员解除禁言");
 
 }
-

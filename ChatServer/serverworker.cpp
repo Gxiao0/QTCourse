@@ -12,13 +12,11 @@ ServerWorker::ServerWorker(QObject *parent)
     m_serverSocket=new QTcpSocket(this);//创建对象，用于处理和对应的客户端进行网络数据通信
     connect(m_serverSocket,&QTcpSocket::readyRead,this,&ServerWorker::onReadyRead);//当客户端发送的数据到达并可读取时(readyRead信号被触发),就会调用onReadyRead函数来处理接收到的数据
     connect(m_serverSocket, &QTcpSocket::disconnected, this, &ServerWorker::disconnectFromClient);
-    //connect(worker, &ServerWorker::disconnectFromClient, this, std::bind(&ChatServer::userDisconnected, this, worker));
 }
 
 bool ServerWorker::setSocketDescriptor(qintptr socketDescriptor)
 {
-    //将传入的套接字描述符设置给内部的QTcpSocket对象
-    return m_serverSocket->setSocketDescriptor(socketDescriptor);
+    return m_serverSocket->setSocketDescriptor(socketDescriptor);//将传入的套接字描述符设置给内部的QTcpSocket对象
 }
 
 QString ServerWorker::userName()
@@ -59,7 +57,6 @@ void ServerWorker::onReadyRead()//读取客户端发送的数据
         socketStream>>jsonData;//从QDataStream中读取数据到jsonData,>>为写入数据
 
         if(socketStream.commitTransaction()){//事务提交成功
-
             QJsonParseError parseError;
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error == QJsonParseError::NoError){
@@ -88,9 +85,7 @@ void ServerWorker::sendMessage(const QString &text, const QString &type)//向客
         QJsonObject message;
         message["type"]=type;
         message["text"]=text;
-
         serverStream << QJsonDocument(message).toJson();//<<操作符将各种数据类型写入QDataStream
-
     }
 }
 

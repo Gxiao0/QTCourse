@@ -30,14 +30,14 @@ void HistoryDialog::on_searchButton_clicked(){
         return;
     }
 
-    if (m_searchByDate) {//根据日期搜索
-        searchByDate(m_selectedDate);
+    if (m_searchByDate) {
+        searchByDate(m_selectedDate);//根据日期搜索
     }
-    else if (m_searchBySender) {//根据用户搜索
-        searchBySender(m_selectedSender);
+    else if (m_searchBySender) {
+        searchBySender(m_selectedSender);//根据用户搜索
     }
-    else {//根据关键字搜索
-        searchByKeyWord(keyword);
+    else {
+        searchByKeyWord(keyword);//根据关键字搜索
     }
 }
 
@@ -144,9 +144,8 @@ void HistoryDialog::searchByKeyWord(const QString &keyword)
     }
     if (!hasResults) {
         ui->plainTextEdit->appendPlainText("未找到该聊天记录");
-        }
+    }
 
-    // 重置查询标志位
     m_searchByDate = false;
     m_searchByKeyWord = false;
     m_searchBySender = false;
@@ -191,7 +190,6 @@ void HistoryDialog::searchBySender(const QString &sender)
     m_searchByDate = false;
     m_searchByKeyWord = false;
     m_searchBySender = false;
-
 }
 
 QStringList HistoryDialog::getAllUsernames()
@@ -217,7 +215,6 @@ void HistoryDialog::on_userButton_clicked()
     QString selectedUser = QInputDialog::getItem(this, "选择用户", "用户名列表:", usernames, 0, false, &ok);
     if (ok && !selectedUser.isEmpty()) {
         ui->lineEdit->setText(selectedUser);
-
         m_selectedSender = selectedUser; // 确保设置正确的用户名
         m_searchBySender = true; // 设置标志位为按用户搜索
     }

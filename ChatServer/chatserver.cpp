@@ -45,7 +45,6 @@ void ChatServer::incomingConnection(qintptr socketDescriptor)
     thread->start();
     m_clients.append(worker);//连接成功，就将该客户端放进m_clients列表中
     emit logMessage("新的用户连接上了");//有新连接就发一个消息
-
 }
 
 
@@ -75,7 +74,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         return;
 
     if(typeVal.toString().compare("message",Qt::CaseInsensitive) == 0){
-
         const QJsonValue textVal =docObj.value("text");
         if(textVal.isNull() || !textVal.isString())
             return;
@@ -106,7 +104,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         if (!query.exec()) {
             qDebug() << "Failed to insert into chat_history:" << query.lastError();
         }
-
         broadcast(message, sender);
     }
     else if(typeVal.toString().compare("login",Qt::CaseInsensitive) == 0){
@@ -119,11 +116,9 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         const QJsonValue isAdminVal = docObj.value("is_admin");
         if (isAdminVal.isBool()) {
             sender->setIsAdmin(isAdminVal.toBool());
-            qDebug() << "User " << usernameVal.toString() << " is admin.";
         }else {
             // 如果没有 is_admin 字段，默认设置为非管理员
             sender->setIsAdmin(false);
-            qDebug() << "User " << usernameVal.toString() << " is not admin.";
         }
 
         QJsonObject connectedMessage;
@@ -136,12 +131,12 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         userListMessage["type"] = "userList";
         QJsonArray userlist;
         for(ServerWorker *worker : m_clients){
-
             if(worker == sender)
                 userlist.append("📝" + worker->userName());//若在本窗口发送消息，则在该用户名前加*
             else
                 userlist.append(worker->userName());
         }
+
         userListMessage["userlist"] = userlist;
         sender->sendJson(userListMessage);
     }
@@ -152,7 +147,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
 
         const QString target = targetVal.toString();
         const QJsonValue textVal = docObj.value("text");
-
         if (textVal.isNull() ||!textVal.isString())
             return;
         const QString text = textVal.toString().trimmed();
@@ -176,11 +170,21 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
                 break;
             }
         }
+
+        // 保存聊天记录到数据库
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO chat_history (sender, message, is_admin) VALUES (:sender, :message, :is_admin)");
+        query.bindValue(":sender", sender->userName());
+        query.bindValue(":message", text);
+        query.bindValue(":is_admin", isAdmin);
+        if (!query.exec()) {
+            qDebug() << "Failed to insert into chat_history:" << query.lastError();
+        }
     }
     else if(typeVal.toString().compare("kick", Qt::CaseInsensitive) == 0){
         // 检查发送者是否为管理员
         const QJsonValue isAdminVal = docObj.value("is_admin");
-        if (isAdminVal.isBool() && isAdminVal.toBool()) {
+        if (isAdminVal.isBool()) {
             const QJsonValue targetVal = docObj.value("target");
             if (targetVal.isNull() ||!targetVal.isString())
                 return;
@@ -204,8 +208,8 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
                 }
             }
             if (targetWorker) {
-                //targetWorker->sendJson(kickNotice); // 通知目标用户
-                targetWorker->disconnectFromClient();
+                targetWorker->sendJson(kickNotice); // 通知目标用户
+                //targetWorker->disconnectFromClient();
                 m_clients.removeAll(targetWorker);
             }
         }
@@ -225,7 +229,6 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
 
         QString senderName = docObj.value("sender").toString();
         qDebug() << "Server received mute message from" << senderName;
-\
         m_isMuted = true;
         qDebug() << "Server: Mute activated by admin.";
         emit logMessage("管理员开启禁言");

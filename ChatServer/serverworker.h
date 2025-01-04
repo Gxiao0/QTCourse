@@ -33,7 +33,7 @@ private:
     QTcpSocket *m_serverSocket;
     QString m_userName;
     bool m_isAdmin=false;//判断是否为管理员
-    bool m_isMuted = false; // 新增全局禁言状态
+    bool m_isMuted = false; // 全局禁言状态
 };
 
 #endif // SERVERWORKER_H

@@ -44,15 +44,16 @@ private slots:
     void handleMuteChat();
     void handleUnmuteChat();
 
+
 private:
     Ui::MainWindow *ui;
 
     ChatClient *m_chatClient;
     bool inChatPage; //记录是否在聊天界面
-    bool userListUpdating; // 新增标志位
+    bool userListUpdating;
     HistoryDialog *historyDialog;
     bool unmuteMessageShown=false;
-    QMutex unmuteMutex; // 新增互斥锁
+    QMutex unmuteMutex; // 互斥锁
 
 
 };

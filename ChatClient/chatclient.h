@@ -31,6 +31,7 @@ private:
     QMutex m_muteMutex; // 互斥锁保护全局禁言状态
 
 
+
 public slots:
     void onReadyRead();//收到消息
     void sendMessage(const QString &text, const QString &type="message", const QString &target="", bool isAdmin="");//传出去消息

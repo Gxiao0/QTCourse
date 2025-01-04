@@ -46,7 +46,6 @@ void ChatClient::onReadyRead()
                         qDebug() << "Client received unmute message.";
                     }
                 }
-
             }
         }
         else{
@@ -79,7 +78,6 @@ void ChatClient::sendMessage(const QString &text, const QString &type, const QSt
             message["is_admin"] = true;
         }
 
-        qDebug() << "Sending message to server:" << QJsonDocument(message).toJson();
         serverStream <<QJsonDocument(message).toJson();//<<操作符将各种数据类型写入QDataStream
     }
 }
@@ -100,7 +98,6 @@ void ChatClient::disconnectFromHost()
 
 void ChatClient::setMuted(bool muted)
 {
-    qDebug()<<"chatclient setMuted 1!";
     if (m_isMuted != muted) {
         QMutexLocker locker(&m_muteMutex);
         m_isMuted = muted;

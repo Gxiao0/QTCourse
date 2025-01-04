@@ -37,7 +37,7 @@ signals:
 private:
     Ui::HistoryDialog *ui;
     ChatClient *m_chatClient;
-    bool m_searchByDate; // 标志，表示是否按日期搜索
+    bool m_searchByDate; // 标志是否按日期搜索
     QDate m_selectedDate; // 保存用户选择的日期
     bool m_searchByKeyWord = false;
     bool hasResults = false;
