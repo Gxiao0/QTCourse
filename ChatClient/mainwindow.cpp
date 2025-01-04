@@ -327,6 +327,11 @@ void MainWindow::on_kickButton_clicked()//踢出按钮
     }
 
     QString selectedUser = currentItem->text();
+    // 检查是否选择了自己
+    if (selectedUser.mid(2) == ui->usernameEdit->text().trimmed()) {
+        QMessageBox::warning(this, "错误", "不能选择自己进行踢出操作！");
+        return;
+    }
     if (!selectedUser.isEmpty()) {
         m_chatClient->sendMessage("", "kick", selectedUser, m_isAdmin);// 发送踢出指令给服务器
 
