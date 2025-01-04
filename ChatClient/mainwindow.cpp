@@ -303,7 +303,8 @@ void MainWindow::on_privateSayButton_clicked()//私聊按钮
     bool isAdmin = m_isAdmin && !selectedTarget.isEmpty(); // 根据当前用户的管理员状态传递参数
     if (selectedTarget.isEmpty()) {
         // 如果没有选择私聊对象，发送公开消息
-        m_chatClient->sendMessage(text, "message", "", m_isAdmin);
+        QMessageBox::information(this,"私聊通知","请先选择用户进行私聊");
+        //m_chatClient->sendMessage(text, "message", "", m_isAdmin);
     } else {
         m_chatClient->sendMessage(text, "private", selectedTarget,isAdmin);// 如果选择了私聊对象，发送私聊消息
         ui->roomTextEdit->append(QString("(我私聊%1) : %2").arg(selectedTarget).arg(text));// 将发送的私聊消息显示在自己的聊天界面
